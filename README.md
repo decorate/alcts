@@ -1,28 +1,29 @@
+# alcts
 
-## npm-package-base
+## Project setup
+```
+yarn install
+```
 
-### Installation
+### Compiles and hot-reloads for development
+```
+yarn run serve
+```
 
-With npm:
+### Compiles and minifies for production
+```
+yarn run build
+```
 
-    git clone git@github.com:decorate/npm-package-base.git
-    
-### Replace
+### Run your tests
+```
+yarn run test
+```
 
-package.json:
+### Lints and fixes files
+```
+yarn run lint
+```
 
-    name,main,unpkg,repository,author,keywords
-    peerDependencies = externalLibrary
-    
-### Usage
-
-    npm install
-    npm run serve
-    
-### Build
-    
-    npm run build
-
-### Test
-
-    npm run test
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
