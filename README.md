@@ -11,7 +11,7 @@ With yarn:
   
 #### Model create  
 ```typescript  
-import {Model, ArrayMappable} from '@team-decorate/alcjs'  
+import {Model, ArrayMappable} from '@team-decorate/alcts'  
 import Post from './models/Post'  
 import Comment from './models/Comment'  
   
@@ -32,8 +32,8 @@ class User extends Model {
   posts: Array<Post> = []
   userComments: Array<Comment> = []
 
-  constructor() {  
-	 super({})         
+  constructor(data: object = {}) {  
+	 super()         
 	 this.fillable = FILLABLE 
 	 //presents is send even if the field is empty 
 	 this.presents = ['type']  
@@ -42,6 +42,8 @@ class User extends Model {
 		 new ArrayMappable(Post), 
 		 new ArrayMappable(Comment).bind('userComments')
 	) 
+	
+	this.data = data
  }
 }  
 ```  
@@ -70,7 +72,7 @@ export default {
  methods: { 
 	 async get() {  
 		 const { data } = await axios.get('/api/user')  
-		 this.user = new Model(data).create(User)
+		 this.user = new User(data)
 		 
 		 
 		 for post in this.user.posts {
@@ -109,6 +111,3 @@ export default {
 |--|--|--|
 | getPostable |null  | Object|
 |update|Object|null|
-|post|String|Promise
-|delete|String|Promise
-|patch|String|Promise

@@ -12,13 +12,11 @@ class Model{
 	private originalData: object = {}
 	private arrayMapTarget: Array<any> = []
 
-	constructor(data: object) {
+	constructor() {
 		this.converter = {
 			snakeToCamel: snakeToCamel,
 			camelToSnake: camelToSnake
 		}
-
-		this.originalData = data
 	}
 
 	get fillable(): string[] {
@@ -58,21 +56,28 @@ class Model{
 
 	set data(val: IIndexable) {
 		this.originalData = val
+
+		if(val) {
+			this.create()
+		}
 	}
 
+	update(data: IIndexable): Model {
+		this.data = data
+		return this
+	}
 
-	create<T extends Model>(type: {new(): T}): T {
-		const instance = new type()
-		Object.entries(this.data).map((x) => {
-			x[0] = instance.converter.camelToSnake(x[0])
-			return x
+	create() {
+		Object.entries(this.data).map(x => {
+					x[0] = this.converter.camelToSnake(x[0])
+					return x
 		})
 			.filter(x => {
-				return instance.hasOwnProperty(instance.converter.snakeToCamel(x[0]))
+				return this.hasOwnProperty(this.converter.snakeToCamel(x[0]))
 			})
 			.map(x => {
-				const key: keyof IIndexable = instance.converter.snakeToCamel(x[0])
-				const data = instance as IIndexable
+				const key: keyof IIndexable = this.converter.snakeToCamel(x[0])
+				const data = this as IIndexable
 
 				if(typeof data[key] == "number") {
 					data[key] = Number(x[1])
@@ -80,16 +85,14 @@ class Model{
 				}
 
 				if(data[key] && data[key].getPostable instanceof Function) {
-					data[key] = new Model(x[1]).create(data[key].constructor)
+					data[key] = new data[key].constructor(x[1])
 					return
 				}
 
 				data[key] = x[1]
 			})
 
-		this.setRelations(instance)
-
-		return instance
+		  this.setRelations()
 	}
 
 	public beforePostable() {
@@ -135,20 +138,20 @@ class Model{
 		return v
 	}
 
-	setRelations<T extends Model>(instance: T) {
-		instance.arrayMapTarget
-			.filter(x => instance.hasOwnProperty(x.bindKey))
+	setRelations() {
+		this.arrayMapTarget
+			.filter(x => this.hasOwnProperty(x.bindKey))
 			.map(x => {
 				return {
-					originalKey: x.bindKey, key: instance.converter.camelToSnake(x.bindKey), value: x.model
+					originalKey: x.bindKey, key: this.converter.camelToSnake(x.bindKey), value: x.model
 				}
 			})
 			.filter(x => this.data[x.key])
 			.map(x => {
-				return (instance as IIndexable)[x.originalKey] =
+				return (this as IIndexable)[x.originalKey] =
 					Object.entries(this.data[x.key])
 						.map(xs => {
-							return new Model((xs[1] as IIndexable)).create(x.value)
+							return new x.value((xs[1] as IIndexable))
 						})
 			})
 	}

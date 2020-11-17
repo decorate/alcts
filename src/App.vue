@@ -32,17 +32,11 @@
                           {type: 2, title: 'C#'}
                         ]
 					}
-			const u = new Model(d).create(User)
+            const u = new User(d)
             console.log(u)
 		}
 	})
 	export default class App extends Vue {}
-
-	interface IUser {
-		id: number
-		name: string
-		appEmail: string
-	}
 
 	class User extends Model{
 
@@ -54,8 +48,8 @@
         userDetail: UserDetail = new UserDetail
         userPosts: Array<Post> = []
 
-		constructor() {
-			super({})
+		constructor(data: object = {}) {
+			super()
 
             this.fillable = ['id', 'name', 'appEmail', 'comments', 'userDetail', 'hide', 'userPosts']
             this.presents = ['hide']
@@ -64,6 +58,8 @@
             	new ArrayMappable(Comment),
                 new ArrayMappable(Post).bind('userPosts')
             )
+
+            this.data = data
 		}
 
         afterPostable(res: IIndexable) {
@@ -74,13 +70,15 @@
 		title: string
         body: string
 
-        constructor() {
-			super({})
+        constructor(data: object = {}) {
+			super()
 
             this.fillable = ['title', 'body']
 
             this.title = ''
             this.body = ''
+
+            this.data = data
         }
     }
 
@@ -88,13 +86,15 @@
 		age: number
         address: string
 
-        constructor() {
-			super({})
+        constructor(data: object = {}) {
+			super()
 
           this.fillable = ['age', 'address']
 
           this.age = 0
           this.address = ''
+
+          this.data = data
         }
     }
 
@@ -102,10 +102,12 @@
 		type: number = 1
         title: string = ''
 
-        constructor() {
-			super({})
+        constructor(data: object = {}) {
+			super()
 
             this.fillable = ['type', 'title']
+
+            this.data = data
         }
     }
 </script>
