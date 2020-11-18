@@ -1,8 +1,9 @@
 import {snakeToCamel, camelToSnake, camelCase } from './utility/stringUtility'
 import { IIndexable } from './interfaces/IIndexxable'
 import {ArrayMappable} from "@/entities/ArrayMappable";
+import {IModel} from "@/interfaces/IModel";
 
-class Model{
+class Model implements IModel{
 
 	private _fillable: string[] = []
 	private _presents: string[] = []
