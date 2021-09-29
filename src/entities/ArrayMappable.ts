@@ -7,7 +7,7 @@ export class ArrayMappable<T extends Model> {
 	bindKey: string = ''
 	model: any
 
-	constructor(model: {new({}) : T}) {
+	constructor(model: {new(data: {}) : T}) {
 		this.bindKey = pluralize(camelCase(model.name))
 		this.model = model
 	}
