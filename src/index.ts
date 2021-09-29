@@ -1,8 +1,9 @@
 import Model from './Model'
 import {IIndexable, IRoute, IRouteWrapper, IModel, Dictionary} from './interfaces'
 import {ArrayMappable} from './entities/ArrayMappable'
-import {Paginate, PaginateConfig} from './entities/Paginate'
-import { RouteWrapper } from '@/entities/RouteWrapper'
+import {Paginate} from './entities/Paginate'
+import { RouteWrapper } from './entities/RouteWrapper'
+import { PaginateConfig } from './interfaces/PaginateConfig'
 
 export {
 	Model,
@@ -14,5 +15,5 @@ export {
 	IRoute,
 	IModel,
 	Dictionary,
-	RouteWrapper
+	RouteWrapper,
 }

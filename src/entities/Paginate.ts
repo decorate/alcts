@@ -1,17 +1,10 @@
-import {IIndexable} from "@/interfaces/IIndexxable"
-import Model from "@/Model";
-import { buildQuery, camelToSnake, snakeToCamel } from '@/utility/stringUtility'
-import { IModel } from '@/interfaces/IModel'
-import { IRouteWrapper } from '@/interfaces/IRouteWrapper'
-import { Dictionary } from '@/interfaces/Dictionary'
-import { RouteWrapper } from '@/entities/RouteWrapper'
+import {IIndexable} from "../interfaces/IIndexxable"
+import Model from "../Model";
+import { buildQuery, camelToSnake, snakeToCamel } from '../utility/stringUtility'
+import { Dictionary } from '../interfaces/Dictionary'
+import { PaginateConfig } from '../interfaces/PaginateConfig'
 
 let LIMIT = 10
-
-export type PaginateConfig = {
-	routerWrapper: IRouteWrapper,
-	getApi: Function,
-}
 
 type PrevOrNext = {
 	path: string,
@@ -32,16 +25,16 @@ export class Paginate{
 	prevPageUrl = ''
 	to = 0
 	total = 0
-	data = []
 	model?: {new(data: IIndexable): Model}
 	config: PaginateConfig
+	private data = []
 
 	constructor(config: PaginateConfig) {
 		this.config = config
 	}
 
-	static generate(config: PaginateConfig): Paginate {
-		return new Paginate(config)
+	generate(): Paginate {
+		return new Paginate(this.config)
 	}
 
 	get limit () {
@@ -173,6 +166,10 @@ export class Paginate{
 	setLimit (num: number): Paginate {
 		LIMIT = num
 		return this
+	}
+
+	getData<T extends Model>(): Array<T>{
+		return this.data as T[]
 	}
 
 }

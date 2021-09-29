@@ -74,6 +74,9 @@ export default {
 		 const { data } = await axios.get('/api/user')  
 		 this.user = new User(data)
 		 
+		 this.user
+		    .posts
+		    .forEach(x => console.log(x instanceof Post)) //true
 		 
 		 for post in this.user.posts {
 			 console.log(post.text)

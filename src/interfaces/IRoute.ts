@@ -1,4 +1,4 @@
-import { Dictionary } from '@/interfaces/Dictionary'
+import { Dictionary } from '../interfaces/Dictionary'
 
 export interface IRoute {
 	path: string

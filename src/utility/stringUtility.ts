@@ -1,5 +1,4 @@
-import linq from 'linq'
-import {IIndexable} from "@/interfaces/IIndexxable";
+import {IIndexable} from "../interfaces/IIndexxable";
 
 
 export function snakeToCamel(p: any): any {
@@ -42,11 +41,16 @@ export function toInt(str: any) {
 
 export function buildQuery(query: IIndexable) {
 	if (!Object.keys(query).length) return ''
-	return linq.from(query)
-		.select(x => {
+
+	return Object.entries(query)
+		.map(x => {
+			const [key, value] = x
+			return {key, value}
+		})
+		.map(x => {
 			return `${x.key}=${x.value}`
 		})
-		.aggregate((prev, current) => {
+		.reduce((prev, current) => {
 			return `${prev}&${current}`
 		})
 }

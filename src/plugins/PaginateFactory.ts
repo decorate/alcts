@@ -1,10 +1,12 @@
-import { Paginate as P, PaginateConfig } from '@/entities/Paginate'
+import { Paginate as P} from '@/entities/Paginate'
 import { route } from '@/store'
 import { RouteWrapper } from '@/entities/RouteWrapper'
+import axios from 'axios'
+import { PaginateConfig } from '@/interfaces/PaginateConfig'
 
 const config: PaginateConfig = {
 	routerWrapper: new RouteWrapper(route),
-	getApi: (url: string) => {},
+	getApi: axios.get,
 }
 
-export const Paginate = P.generate(config)
+export const Paginate = new P(config)

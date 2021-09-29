@@ -9,9 +9,9 @@ export class User extends Model{
 	hide: boolean = false
 	comments: Array<Comment> = []
 	userDetail: UserDetail = new UserDetail
-	userPosts: Array<Post> = []
+	userPosts: Post[] = []
 
-	constructor(data: object = {}) {
+	constructor(data: IIndexable) {
 		super()
 
 		this.fillable = ['id', 'name', 'appEmail', 'comments', 'userDetail', 'hide', 'userPosts']
@@ -25,7 +25,7 @@ export class User extends Model{
 		this.data = data
 	}
 
-	afterPostable(res: IIndexable) {
+	afterPostable(res: User) {
 	}
 }
 
