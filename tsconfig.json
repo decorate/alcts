@@ -14,19 +14,25 @@
     "baseUrl": ".",
     "declaration": true,
     "outDir": "dist",
+    "allowJs": true,
     "types": [
-      "webpack-env"
+      "webpack-env",
+      "jest"
     ],
     "paths": {
       "@/*": [
         "src/*"
-      ]
+      ],
+      "*": ["./src/@types/*"]
     },
     "lib": [
       "esnext",
       "dom",
       "dom.iterable",
       "scripthost"
+    ],
+    "typeRoots":[
+      "src/types", "node_modules/@types"
     ]
   },
   "include": [

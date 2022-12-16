@@ -6,11 +6,12 @@ class Model implements IModel{
 
 	private _fillable: string[] = []
 	private _presents: string[] = []
+	private _ignore: string[] = []
 	private _convert: boolean = true
 
-	private converter: any
+	public converter: any
 	private originalData: object = {}
-	private arrayMapTarget: Array<any> = []
+	public arrayMapTarget: Array<any> = []
 
 	constructor() {
 		this.converter = {
@@ -33,6 +34,14 @@ class Model implements IModel{
 
 	set presents(val: string[]) {
 		this._presents = val
+	}
+
+	get ignore() {
+		return this._ignore
+	}
+
+	set ignore(val: string[]) {
+		this._ignore = val
 	}
 
 	get convert(): boolean {
@@ -105,6 +114,10 @@ class Model implements IModel{
 		return this.presents.some(v => x[0] == v)
 	}
 
+	public ignoreWhere(x: IIndexable) {
+		return this.ignore.every(v => x[0] != v)
+	}
+
 	public arrayMap(...mappable: Array<any>) {
 		this.arrayMapTarget = mappable
 	}
@@ -114,7 +127,13 @@ class Model implements IModel{
 
 		const res = Object.entries(this)
 			.filter(x => this.fillable.some(v => v == x[0]))
-			.filter(x => x[1] || this.joinWhere(x))
+			.filter(x => this.ignoreWhere(x))
+			.filter(x => {
+				if(this.ignoreWhere.length) {
+					return true
+				}
+				return x[1] || this.joinWhere(x)
+			})
 			.map(x => {
 				const v = {key: x[0], value: x[1]}
 				const key = this.converter.camelToSnake(v.key)
