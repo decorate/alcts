@@ -1,6 +1,8 @@
 import {snakeToCamel, camelToSnake, camelCase } from './utility/stringUtility'
-import { IIndexable } from './interfaces/IIndexxable'
+import { IIndexable } from '@/interfaces'
 import {IModel} from "@/interfaces/IModel";
+import Form from 'vform'
+import { AxiosRequestConfig, AxiosResponse } from 'axios'
 
 class Model implements IModel{
 
@@ -12,6 +14,7 @@ class Model implements IModel{
 	public converter: any
 	private originalData: object = {}
 	public arrayMapTarget: Array<any> = []
+	private form = new Form
 
 	constructor() {
 		this.converter = {
@@ -69,6 +72,10 @@ class Model implements IModel{
 		if(val) {
 			this.create()
 		}
+	}
+
+	fill() {
+		this.form = new Form(this.getPostable())
 	}
 
 	update(data: IIndexable): Model {
@@ -183,6 +190,20 @@ class Model implements IModel{
 		return res
 	}
 
+	async post<T = any>(url: string, config: AxiosRequestConfig = {}): Promise<AxiosResponse<T>> {
+		this.fill()
+		return await this.form.post(url, config)
+	}
+
+	async patch<T = any>(url: string, config: AxiosRequestConfig = {}): Promise<AxiosResponse<T>> {
+		this.fill()
+		return await this.form.patch(url, config)
+	}
+
+	async delete<T = any>(url: string, config: AxiosRequestConfig = {}): Promise<AxiosResponse<T>> {
+		this.fill()
+		return await this.form.delete(url, config)
+	}
 
 }
 

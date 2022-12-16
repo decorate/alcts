@@ -60,12 +60,22 @@
 			// "to": 15,
 			// }
 
-			const { data } = await axios.get('/users')
-			this.paginate.setModel(User).create(data)
-            console.log(this.paginate)
-			await this.paginate.nextUpdate()
+      const d = await axios.get('/user')
+      const u = new User(d.data)
 
-			this.paginate.getData<User>().map(x => console.log(x))
+      type res = {
+        user: User,
+        token: string
+      }
+      const {data} = await u.post<res>('/user')
+      console.log(data.user)
+
+      //
+			// const { data } = await axios.get('/users')
+			// this.paginate.setModel(User).create(data)
+			// await this.paginate.nextUpdate()
+      //
+			// this.paginate.getData<User>().map(x => console.log(x))
 		}
 
     }
