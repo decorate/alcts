@@ -205,6 +205,9 @@ class Model implements IModel{
 		return await this.form.delete(url, config)
 	}
 
+	errors() {
+		return this.form.errors
+	}
 }
 
 export default Model
