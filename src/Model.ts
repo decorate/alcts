@@ -14,7 +14,7 @@ class Model implements IModel{
 	public converter: any
 	private originalData: object = {}
 	public arrayMapTarget: Array<any> = []
-	private form = new Form
+	public form = new Form
 
 	constructor() {
 		this.converter = {
