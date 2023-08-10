@@ -6,13 +6,13 @@ import { AxiosRequestConfig, AxiosResponse } from 'axios'
 
 class Model implements IModel{
 
-	private _fillable: string[] = []
-	private _presents: string[] = []
-	private _ignore: string[] = []
-	private _convert: boolean = true
+	public _fillable: string[] = []
+	public _presents: string[] = []
+	public _ignore: string[] = []
+	public _convert: boolean = true
 
 	public converter: any
-	private originalData: object = {}
+	public originalData: object = {}
 	public arrayMapTarget: Array<any> = []
 	public form = new Form
 
