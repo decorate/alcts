@@ -50,6 +50,7 @@ describe('TestParentGroup', () => {
     const user = new TestUser()
     user.name = 'test user'
 
+    parentGroup.name = 'test group'
     parentGroup.user.set(user)
     user.parentGroup.set(parentGroup)
 
