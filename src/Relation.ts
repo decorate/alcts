@@ -17,11 +17,11 @@ export class Relation<T> {
 
   /**
    * リレーションの値を取得
-   * @returns {T} リレーションの値
+   * @returns {T | undefined} リレーションの値
    */
-  get(): T {
+  get(): T | undefined {
     if (this.value === null) {
-      this.value = new this.modelClass()
+      return undefined
     }
     return this.value
   }
