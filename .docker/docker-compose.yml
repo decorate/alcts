@@ -1,0 +1,14 @@
+services:
+  app:
+    build:
+      context: .
+    container_name: alcts
+    restart: unless-stopped
+    tty: true
+    ports:
+      - '3003:3003'
+    volumes:
+      - ../:/usr/src/alcts
+      - /usr/share/zoneinfo/Asia/Tokyo:/etc/localtime
+    environment:
+      - HOST=0.0.0.0
