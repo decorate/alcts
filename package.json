@@ -11,7 +11,8 @@
     "build": "./node_modules/.bin/tsc",
     "mock:build": "axios-mock-server -b",
     "mock:watch": "axios-mock-server -w",
-    "test": "jest --forceExit -i"
+    "test": "jest --forceExit -i",
+    "type-check": "tsc --noEmit"
   },
   "repository": {
     "type": "git",
