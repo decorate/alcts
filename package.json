@@ -1,6 +1,6 @@
 {
   "name": "@team-decorate/alcts",
-  "version": "1.5.2",
+  "version": "2.0.0",
   "main": "dist/index.d.ts",
   "types": "dist/index.d.ts",
   "files": [
@@ -11,7 +11,8 @@
     "build": "./node_modules/.bin/tsc",
     "mock:build": "axios-mock-server -b",
     "mock:watch": "axios-mock-server -w",
-    "test": "jest --forceExit -i"
+    "test": "jest --forceExit -i",
+    "type-check": "tsc --noEmit"
   },
   "repository": {
     "type": "git",
@@ -68,7 +69,7 @@
     "transform": {
       ".*\\.(ts|js)x?$": "ts-jest"
     },
-    "testRegex": "(__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "testRegex": ".*\\.(test|spec)\\.ts$",
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/src/$1"
     },
