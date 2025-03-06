@@ -2,8 +2,6 @@
  * TestCommentのテスト
  */
 import {TestComment} from './TestComment'
-import {TestUser} from './TestUser'
-import {TestPost} from './TestPost'
 
 describe('TestComment', () => {
   let comment: TestComment

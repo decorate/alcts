@@ -1,9 +1,9 @@
 /**
  * TestParentGroupのテスト
  */
+import {Relation} from '../../Relation'
 import {TestParentGroup} from './TestParentGroup'
 import {TestUser} from './TestUser'
-import {Relation} from '@/Relation'
 
 describe('TestParentGroup', () => {
   let parentGroup: TestParentGroup

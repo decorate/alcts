@@ -2,9 +2,6 @@
  * TestUserのテスト
  */
 import {TestUser} from './TestUser'
-import {TestPost} from './TestPost'
-import {TestComment} from './TestComment'
-import {TestParentGroup} from './TestParentGroup'
 
 describe('TestUser', () => {
   let user: TestUser
