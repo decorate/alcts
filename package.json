@@ -7,7 +7,6 @@
     "dist"
   ],
   "scripts": {
-    "serve": "vue-cli-service serve",
     "build": "./node_modules/.bin/tsc",
     "mock:build": "axios-mock-server -b",
     "mock:watch": "axios-mock-server -w",
@@ -33,9 +32,6 @@
   "devDependencies": {
     "@team-decorate/alcts": "^1.1.1",
     "@types/jest": "^29.2.1",
-    "@vue/cli-plugin-babel": "^4.5.0",
-    "@vue/cli-plugin-typescript": "^4.5.0",
-    "@vue/cli-service": "^4.5.0",
     "axios": "^0.21.0",
     "axios-mock-server": "^0.19.0",
     "core-js": "^3.6.5",
@@ -44,18 +40,8 @@
     "jest-node-exports-resolver": "^1.1.6",
     "linq": "^3.2.3",
     "ts-jest": "^29.0.3",
-    "typescript": "^4.8.4",
-    "vue": "^2.6.11",
-    "vue-class-component": "^7.2.3",
-    "vue-property-decorator": "^8.4.2",
-    "vue-router": "^3.2.0",
-    "vue-template-compiler": "^2.6.11"
+    "typescript": "^4.8.4"
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ],
   "publishConfig": {
     "access": "public"
   },
@@ -63,8 +49,7 @@
     "moduleFileExtensions": [
       "js",
       "ts",
-      "json",
-      "vue"
+      "json"
     ],
     "transform": {
       ".*\\.(ts|js)x?$": "ts-jest"
