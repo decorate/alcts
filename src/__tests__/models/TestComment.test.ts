@@ -45,7 +45,11 @@ describe('TestComment', () => {
 
     comment.update(data)
 
-    expect(comment.user.get().name).toBe('test user')
-    expect(comment.post.get().title).toBe('test post')
+    const user = comment.user.get()
+    const post = comment.post.get()
+    expect(user).toBeDefined()
+    expect(post).toBeDefined()
+    expect(user!.name).toBe('test user')
+    expect(post!.title).toBe('test post')
   })
 })

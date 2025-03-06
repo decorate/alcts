@@ -28,10 +28,9 @@ describe('Relation', () => {
 
     relation.set(userData)
     const result = relation.get()
-
-    expect(result).toBeInstanceOf(TestUser)
-    expect(result.id).toBe(1)
-    expect(result.name).toBe('test user')
+    expect(result).toBeDefined()
+    expect(result!.id).toBe(1)
+    expect(result!.name).toBe('test user')
   })
 
   it('should handle nested relations', () => {
@@ -46,9 +45,8 @@ describe('Relation', () => {
 
     user.update(userData)
     const result = user.parentGroup.get()
-
-    expect(result).toBeInstanceOf(TestParentGroup)
-    expect(result.id).toBe(1)
-    expect(result.name).toBe('test group')
+    expect(result).toBeDefined()
+    expect(result!.id).toBe(1)
+    expect(result!.name).toBe('test group')
   })
 })

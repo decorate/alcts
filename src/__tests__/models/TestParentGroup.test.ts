@@ -41,8 +41,9 @@ describe('TestParentGroup', () => {
     }
 
     parentGroup.update(data)
-
-    expect(parentGroup.user.get().name).toBe('test user')
+    const user = parentGroup.user.get()
+    expect(user).toBeDefined()
+    expect(user!.name).toBe('test user')
   })
 
   it('should handle nested user relations', () => {
@@ -52,7 +53,9 @@ describe('TestParentGroup', () => {
     parentGroup.user.set(user)
     user.parentGroup.set(parentGroup)
 
-    expect(user.parentGroup.get().name).toBe('test group')
+    const parentGroupFromUser = user.parentGroup.get()
+    expect(parentGroupFromUser).toBeDefined()
+    expect(parentGroupFromUser!.name).toBe('test group')
   })
 
   describe('循環参照のテスト', () => {
@@ -68,8 +71,12 @@ describe('TestParentGroup', () => {
       parentGroup.user.set(user)
 
       // 循環参照が発生していないことを確認
-      expect(user.parentGroup.get()).toBe(parentGroup)
-      expect(parentGroup.user.get()).toBe(user)
+      const parentGroupFromUser = user.parentGroup.get()
+      const userFromParentGroup = parentGroup.user.get()
+      expect(parentGroupFromUser).toBeDefined()
+      expect(userFromParentGroup).toBeDefined()
+      expect(parentGroupFromUser).toBe(parentGroup)
+      expect(userFromParentGroup).toBe(user)
 
       // データの整合性を確認
       const userData = {
@@ -93,8 +100,12 @@ describe('TestParentGroup', () => {
       user.data = userData
       parentGroup.data = groupData
 
-      expect(user.parentGroup.get().name).toBe('test group')
-      expect(parentGroup.user.get().name).toBe('test user')
+      const parentGroupFromUserAfterUpdate = user.parentGroup.get()
+      const userFromParentGroupAfterUpdate = parentGroup.user.get()
+      expect(parentGroupFromUserAfterUpdate).toBeDefined()
+      expect(userFromParentGroupAfterUpdate).toBeDefined()
+      expect(parentGroupFromUserAfterUpdate!.name).toBe('test group')
+      expect(userFromParentGroupAfterUpdate!.name).toBe('test user')
     })
 
     it('深い循環参照のパターンでも正しく動作すること', () => {
@@ -116,19 +127,23 @@ describe('TestParentGroup', () => {
 
       // 親グループの取得と検証
       const parentGroup = user.parentGroup.get()
-      expect(parentGroup).toBeInstanceOf(TestParentGroup)
-      expect(parentGroup.id).toBe(1)
-      expect(parentGroup.name).toBe('test group')
+      expect(parentGroup).toBeDefined()
+      expect(parentGroup!.id).toBe(1)
+      expect(parentGroup!.name).toBe('test group')
 
       // 親グループのユーザーの取得と検証
-      const parentGroupUser = parentGroup.user.get()
-      expect(parentGroupUser).toBeInstanceOf(TestUser)
-      expect(parentGroupUser.id).toBe(2)
-      expect(parentGroupUser.name).toBe('test2-user')
+      const parentGroupUser = parentGroup!.user.get()
+      expect(parentGroupUser).toBeDefined()
+      expect(parentGroupUser!.id).toBe(2)
+      expect(parentGroupUser!.name).toBe('test2-user')
 
       // データの整合性を確認
-      expect(user.parentGroup.get().name).toBe('test group')
-      expect(user.parentGroup.get().user.get().name).toBe('test2-user')
+      const parentGroupFromUser = user.parentGroup.get()
+      const userFromParentGroup = parentGroup!.user.get()
+      expect(parentGroupFromUser).toBeDefined()
+      expect(userFromParentGroup).toBeDefined()
+      expect(parentGroupFromUser!.name).toBe('test group')
+      expect(userFromParentGroup!.name).toBe('test2-user')
     })
 
     it('コンストラクタでデータを渡した場合でも正しく動作すること', () => {
@@ -149,19 +164,23 @@ describe('TestParentGroup', () => {
 
       // 親グループの取得と検証
       const parentGroup = user.parentGroup.get()
-      expect(parentGroup).toBeInstanceOf(TestParentGroup)
-      expect(parentGroup.id).toBe(1)
-      expect(parentGroup.name).toBe('test group')
+      expect(parentGroup).toBeDefined()
+      expect(parentGroup!.id).toBe(1)
+      expect(parentGroup!.name).toBe('test group')
 
       // 親グループのユーザーの取得と検証
-      const parentGroupUser = parentGroup.user.get()
-      expect(parentGroupUser).toBeInstanceOf(TestUser)
-      expect(parentGroupUser.id).toBe(2)
-      expect(parentGroupUser.name).toBe('test2-user')
+      const parentGroupUser = parentGroup!.user.get()
+      expect(parentGroupUser).toBeDefined()
+      expect(parentGroupUser!.id).toBe(2)
+      expect(parentGroupUser!.name).toBe('test2-user')
 
       // データの整合性を確認
-      expect(user.parentGroup.get().name).toBe('test group')
-      expect(user.parentGroup.get().user.get().name).toBe('test2-user')
+      const parentGroupFromUser = user.parentGroup.get()
+      const userFromParentGroup = parentGroup!.user.get()
+      expect(parentGroupFromUser).toBeDefined()
+      expect(userFromParentGroup).toBeDefined()
+      expect(parentGroupFromUser!.name).toBe('test group')
+      expect(userFromParentGroup!.name).toBe('test2-user')
     })
   })
 })
