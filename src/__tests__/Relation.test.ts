@@ -1,7 +1,7 @@
 /**
  * Relationクラスのテスト
  */
-import {Relation} from '../../Relation'
+import {Relation} from '../Relation'
 import {TestUser} from './models/TestUser'
 import {TestParentGroup} from './models/TestParentGroup'
 

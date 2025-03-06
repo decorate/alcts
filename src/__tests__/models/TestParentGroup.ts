@@ -21,11 +21,11 @@ export class TestParentGroup extends Model {
   /**
    * グループのユーザー
    */
-  users: TestUser[] = []
+  user: Relation<TestUser> = new Relation(TestUser)
 
   constructor(data: object = {}) {
     super()
-    this.fillable = ['id', 'name', 'users']
+    this.fillable = ['id', 'name', 'user']
 
     if (Object.keys(data).length > 0) {
       this.data = data

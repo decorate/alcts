@@ -15,7 +15,7 @@ describe('TestParentGroup', () => {
   it('should create a new parent group', () => {
     expect(parentGroup.id).toBe(0)
     expect(parentGroup.name).toBe('')
-    expect(parentGroup.users).toEqual([])
+    expect(parentGroup.user.get()).toBeUndefined()
   })
 
   it('should update parent group data', () => {
@@ -30,26 +30,29 @@ describe('TestParentGroup', () => {
     expect(parentGroup.name).toBe('test group')
   })
 
-  it('should handle users', () => {
+  it('should handle user relation', () => {
     const data = {
       id: 1,
       name: 'test group',
-      users: [
-        {
-          id: 1,
-          name: 'test user 1',
-        },
-        {
-          id: 2,
-          name: 'test user 2',
-        },
-      ],
+      user: {
+        id: 1,
+        name: 'test user',
+      },
     }
 
     parentGroup.update(data)
 
-    expect(parentGroup.users[0].name).toBe('test user 1')
-    expect(parentGroup.users[1].name).toBe('test user 2')
+    expect(parentGroup.user.get().name).toBe('test user')
+  })
+
+  it('should handle nested user relations', () => {
+    const user = new TestUser()
+    user.name = 'test user'
+
+    parentGroup.user.set(user)
+    user.parentGroup.set(parentGroup)
+
+    expect(user.parentGroup.get().name).toBe('test group')
   })
 
   describe('循環参照のテスト', () => {
@@ -62,7 +65,6 @@ describe('TestParentGroup', () => {
       user.parentGroup.set(parentGroup)
 
       // 親グループにユーザーを設定
-      parentGroup.user = new Relation(TestUser)
       parentGroup.user.set(user)
 
       // 循環参照が発生していないことを確認
