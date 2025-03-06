@@ -4,6 +4,7 @@
 import Model from '../../Model'
 import {Relation} from '../../Relation'
 import {TestUser} from './TestUser'
+import {TestPost} from './TestPost'
 
 export class TestComment extends Model {
   /**
@@ -14,17 +15,25 @@ export class TestComment extends Model {
   /**
    * コメントのテキスト
    */
-  text: string = ''
+  content: string = ''
 
   /**
    * コメントの作成者
    */
   user: Relation<TestUser> = new Relation(TestUser)
 
+  /**
+   * コメントが属する投稿
+   */
+  post: Relation<TestPost> = new Relation(TestPost)
+
   constructor(data: object = {}) {
     super()
-    this.fillable = ['id', 'text', 'user']
-    this.data = data
+    this.fillable = ['id', 'content', 'user', 'post']
+
+    if (Object.keys(data).length > 0) {
+      this.data = data
+    }
   }
 
   /**
@@ -32,5 +41,6 @@ export class TestComment extends Model {
    */
   protected relations = {
     user: new Relation(TestUser),
+    post: new Relation(TestPost),
   }
 }

@@ -3,11 +3,11 @@
  * @class TestUser
  * @extends {Model}
  */
-import Model from '@/Model'
-import {Relation} from '@/Relation'
+import Model from '../../Model'
+import {Relation} from '../../Relation'
 import {TestParentGroup} from './TestParentGroup'
 import {TestPost} from './TestPost'
-import {ArrayMappable} from '@/entities/ArrayMappable'
+import {ArrayMappable} from '../../entities/ArrayMappable'
 import {TestComment} from './TestComment'
 
 export class TestUser extends Model {

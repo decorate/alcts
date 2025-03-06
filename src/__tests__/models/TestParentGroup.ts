@@ -3,8 +3,8 @@
  * @class TestParentGroup
  * @extends {Model}
  */
-import Model from '@/Model'
-import {Relation} from '@/Relation'
+import Model from '../../Model'
+import {Relation} from '../../Relation'
 import {TestUser} from './TestUser'
 
 export class TestParentGroup extends Model {
@@ -21,12 +21,15 @@ export class TestParentGroup extends Model {
   /**
    * グループのユーザー
    */
-  user: Relation<TestUser> = new Relation(TestUser)
+  users: TestUser[] = []
 
   constructor(data: object = {}) {
     super()
-    this.fillable = ['id', 'name', 'user']
-    this.data = data
+    this.fillable = ['id', 'name', 'users']
+
+    if (Object.keys(data).length > 0) {
+      this.data = data
+    }
   }
 
   /**
