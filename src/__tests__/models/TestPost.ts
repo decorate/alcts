@@ -7,6 +7,11 @@ import {TestUser} from './TestUser'
 
 export class TestPost extends Model {
   /**
+   * 投稿のID
+   */
+  id: number = 0
+
+  /**
    * 投稿のテキスト
    */
   text: string = ''
