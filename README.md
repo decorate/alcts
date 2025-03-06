@@ -72,7 +72,11 @@ class ParentGroup extends Model {
   ],
   "parent_group": {
     "id": 1,
-    "name": "Test Group"
+    "name": "Test Group",
+    "user": {
+      "id": 2,
+      "name": "test2-user"
+    }
   }
 }
 ```
@@ -81,26 +85,37 @@ class ParentGroup extends Model {
 export default {
   methods: {
     async get() {
+      // 方法1: コンストラクタでデータを渡す
       const {data} = await axios.get('/api/user')
-      this.user = new User(data)
+      const user = new User(data)
+
+      // 方法2: 後からデータを設定
+      const user2 = new User()
+      user2.data = data
 
       // リレーションの取得
-      const parentGroup = this.user.parentGroup.get()
+      const parentGroup = user.parentGroup.get()
       console.log(parentGroup instanceof ParentGroup) // true
       console.log(parentGroup.id) // 1
       console.log(parentGroup.name) // "Test Group"
 
+      // 深い循環参照のパターン
+      const parentGroupUser = parentGroup.user.get()
+      console.log(parentGroupUser instanceof User) // true
+      console.log(parentGroupUser.id) // 2
+      console.log(parentGroupUser.name) // "test2-user"
+
       // リレーションの設定
       const newParentGroup = new ParentGroup({id: 2, name: 'New Group'})
-      this.user.parentGroup.set(newParentGroup)
+      user.parentGroup.set(newParentGroup)
 
       // 配列の処理
-      this.user.posts.forEach(post => {
+      user.posts.forEach(post => {
         console.log(post instanceof Post) // true
         console.log(post.text)
       })
 
-      this.user.userComments.forEach(comment => {
+      user.userComments.forEach(comment => {
         console.log(comment instanceof Comment) // true
       })
     },
@@ -132,6 +147,8 @@ export default {
 - 遅延初期化による循環参照の防止
 - 型安全性の確保
 - シンプルで直感的な API
+- 深い循環参照のパターンにも対応
+- コンストラクタでのデータ渡しに対応
 
 ### Overridable Property
 
