@@ -51,7 +51,7 @@ describe('TestUser', () => {
           content: 'test post 2 content',
         },
       ],
-      userComments: [
+      user_comments: [
         {
           id: 1,
           content: 'test comment 1',
