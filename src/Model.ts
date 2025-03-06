@@ -1,9 +1,7 @@
 import {snakeToCamel, camelToSnake, camelCase} from './utility/stringUtility'
 import {IIndexable} from '@/interfaces'
 import {IModel} from '@/interfaces/IModel'
-import {AxiosRequestConfig, AxiosResponse} from 'axios'
 import {Relation} from './Relation'
-import axios from 'axios'
 
 class Model implements IModel {
   public _fillable: string[] = []
@@ -247,29 +245,6 @@ class Model implements IModel {
       Object.assign(res, x)
     })
     return res
-  }
-
-  async post<T = any>(
-    url: string,
-    config: AxiosRequestConfig = {}
-  ): Promise<AxiosResponse<T>> {
-    const data = this.getPostable()
-    return await axios.post(url, data, config)
-  }
-
-  async patch<T = any>(
-    url: string,
-    config: AxiosRequestConfig = {}
-  ): Promise<AxiosResponse<T>> {
-    const data = this.getPostable()
-    return await axios.patch(url, data, config)
-  }
-
-  async delete<T = any>(
-    url: string,
-    config: AxiosRequestConfig = {}
-  ): Promise<AxiosResponse<T>> {
-    return await axios.delete(url, config)
   }
 
   get errors() {
