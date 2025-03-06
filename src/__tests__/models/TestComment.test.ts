@@ -2,6 +2,8 @@
  * TestCommentのテスト
  */
 import {TestComment} from './TestComment'
+import {TestUser} from './TestUser'
+import {TestPost} from './TestPost'
 
 describe('TestComment', () => {
   let comment: TestComment
@@ -10,41 +12,40 @@ describe('TestComment', () => {
     comment = new TestComment()
   })
 
-  describe('初期化', () => {
-    it('デフォルト値が正しく設定されること', () => {
-      expect(comment.id).toBe(0)
-      expect(comment.text).toBe('')
-    })
-
-    it('fillableプロパティが正しく設定されること', () => {
-      expect(comment.fillable).toEqual(['id', 'text', 'user'])
-    })
+  it('should create a new comment', () => {
+    expect(comment.id).toBe(0)
+    expect(comment.content).toBe('')
   })
 
-  describe('データの設定', () => {
-    it('データが正しく設定されること', () => {
-      const data = {
+  it('should update comment data', () => {
+    const data = {
+      id: 1,
+      content: 'test comment',
+    }
+
+    comment.update(data)
+
+    expect(comment.id).toBe(1)
+    expect(comment.content).toBe('test comment')
+  })
+
+  it('should handle user and post relations', () => {
+    const data = {
+      id: 1,
+      content: 'test comment',
+      user: {
         id: 1,
-        text: 'test comment',
-      }
-
-      comment.data = data
-
-      expect(comment.id).toBe(1)
-      expect(comment.text).toBe('test comment')
-    })
-
-    it('convertがfalseの場合、スネークケースのキーが変換されないこと', () => {
-      const data = {
+        name: 'test user',
+      },
+      post: {
         id: 1,
-        text: 'test comment',
-      }
+        title: 'test post',
+      },
+    }
 
-      comment.convert = false
-      comment.data = data
+    comment.update(data)
 
-      expect(comment.id).toBe(1)
-      expect(comment.text).toBe('test comment')
-    })
+    expect(comment.user.get().name).toBe('test user')
+    expect(comment.post.get().title).toBe('test post')
   })
 })

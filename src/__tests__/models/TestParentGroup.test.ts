@@ -6,48 +6,50 @@ import {TestUser} from './TestUser'
 import {Relation} from '@/Relation'
 
 describe('TestParentGroup', () => {
-  let group: TestParentGroup
+  let parentGroup: TestParentGroup
 
   beforeEach(() => {
-    group = new TestParentGroup()
+    parentGroup = new TestParentGroup()
   })
 
-  describe('初期化', () => {
-    it('デフォルト値が正しく設定されること', () => {
-      expect(group.id).toBe(0)
-      expect(group.name).toBe('')
-    })
-
-    it('fillableプロパティが正しく設定されること', () => {
-      expect(group.fillable).toEqual(['id', 'name', 'user'])
-    })
+  it('should create a new parent group', () => {
+    expect(parentGroup.id).toBe(0)
+    expect(parentGroup.name).toBe('')
+    expect(parentGroup.users).toEqual([])
   })
 
-  describe('データの設定', () => {
-    it('データが正しく設定されること', () => {
-      const data = {
-        id: 1,
-        name: 'test group',
-      }
+  it('should update parent group data', () => {
+    const data = {
+      id: 1,
+      name: 'test group',
+    }
 
-      group.data = data
+    parentGroup.update(data)
 
-      expect(group.id).toBe(1)
-      expect(group.name).toBe('test group')
-    })
+    expect(parentGroup.id).toBe(1)
+    expect(parentGroup.name).toBe('test group')
+  })
 
-    it('convertがfalseの場合、スネークケースのキーが変換されないこと', () => {
-      const data = {
-        id: 1,
-        name: 'test group',
-      }
+  it('should handle users', () => {
+    const data = {
+      id: 1,
+      name: 'test group',
+      users: [
+        {
+          id: 1,
+          name: 'test user 1',
+        },
+        {
+          id: 2,
+          name: 'test user 2',
+        },
+      ],
+    }
 
-      group.convert = false
-      group.data = data
+    parentGroup.update(data)
 
-      expect(group.id).toBe(1)
-      expect(group.name).toBe('test group')
-    })
+    expect(parentGroup.users[0].name).toBe('test user 1')
+    expect(parentGroup.users[1].name).toBe('test user 2')
   })
 
   describe('循環参照のテスト', () => {

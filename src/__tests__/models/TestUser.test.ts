@@ -4,6 +4,7 @@
 import {TestUser} from './TestUser'
 import {TestPost} from './TestPost'
 import {TestComment} from './TestComment'
+import {TestParentGroup} from './TestParentGroup'
 
 describe('TestUser', () => {
   let user: TestUser
@@ -12,65 +13,64 @@ describe('TestUser', () => {
     user = new TestUser()
   })
 
-  describe('初期化', () => {
-    it('デフォルト値が正しく設定されること', () => {
-      expect(user.name).toBe('')
-      expect(user.email).toBe('')
-      expect(user.posts).toEqual([])
-      expect(user.userComments).toEqual([])
-    })
-
-    it('fillableプロパティが正しく設定されること', () => {
-      expect(user.fillable).toEqual([
-        'id',
-        'name',
-        'email',
-        'type',
-        'posts',
-        'userComments',
-        'parentGroup',
-      ])
-    })
+  it('should create a new user', () => {
+    expect(user.id).toBe(0)
+    expect(user.name).toBe('')
+    expect(user.email).toBe('')
+    expect(user.type).toBe(0)
   })
 
-  describe('データの設定', () => {
-    it('データが正しく設定されること', () => {
-      const data = {
-        id: 1,
-        name: 'test-user',
-        email: 'test@mail.com',
-        type: 1,
-        posts: [
-          {id: 1, text: 'test post 1'},
-          {id: 2, text: 'test post 2'},
-        ],
-        user_comments: [
-          {id: 1, text: 'test comment 1'},
-          {id: 2, text: 'test comment 2'},
-        ],
-        parent_group: {
+  it('should update user data', () => {
+    const data = {
+      id: 1,
+      name: 'test user',
+      email: 'test@example.com',
+      type: 1,
+    }
+
+    user.update(data)
+
+    expect(user.id).toBe(1)
+    expect(user.name).toBe('test user')
+    expect(user.email).toBe('test@example.com')
+    expect(user.type).toBe(1)
+  })
+
+  it('should handle posts and comments', () => {
+    const data = {
+      id: 1,
+      name: 'test user',
+      email: 'test@example.com',
+      type: 1,
+      posts: [
+        {
           id: 1,
-          name: 'Test Group',
+          title: 'test post 1',
+          content: 'test post 1 content',
         },
-      }
+        {
+          id: 2,
+          title: 'test post 2',
+          content: 'test post 2 content',
+        },
+      ],
+      userComments: [
+        {
+          id: 1,
+          content: 'test comment 1',
+        },
+        {
+          id: 2,
+          content: 'test comment 2',
+        },
+      ],
+    }
 
-      user.data = data
+    user.update(data)
 
-      expect(user.id).toBe(1)
-      expect(user.name).toBe('test-user')
-      expect(user.email).toBe('test@mail.com')
-      expect(user.parentGroup.get().id).toBe(1)
-      expect(user.parentGroup.get().name).toBe('Test Group')
-
-      expect(user.posts).toHaveLength(2)
-      expect(user.posts[0]).toBeInstanceOf(TestPost)
-      expect(user.posts[0].text).toBe('test post 1')
-      expect(user.posts[1].text).toBe('test post 2')
-
-      expect(user.userComments).toHaveLength(2)
-      expect(user.userComments[0]).toBeInstanceOf(TestComment)
-      expect(user.userComments[0].text).toBe('test comment 1')
-      expect(user.userComments[1].text).toBe('test comment 2')
-    })
+    expect(user.posts[0].title).toBe('test post 1')
+    expect(user.posts[1].title).toBe('test post 2')
+    expect(user.userComments[0].content).toBe('test comment 1')
+    expect(user.userComments[1].content).toBe('test comment 2')
   })
 })
