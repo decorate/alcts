@@ -26,8 +26,7 @@
   "license": "MIT",
   "dependencies": {
     "@types/pluralize": "^0.0.29",
-    "pluralize": "^8.0.0",
-    "vform": "^2.1.2"
+    "pluralize": "^8.0.0"
   },
   "devDependencies": {
     "@team-decorate/alcts": "^1.1.1",

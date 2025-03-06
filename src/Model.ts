@@ -1,9 +1,9 @@
 import {snakeToCamel, camelToSnake, camelCase} from './utility/stringUtility'
 import {IIndexable} from '@/interfaces'
 import {IModel} from '@/interfaces/IModel'
-import Form from 'vform'
 import {AxiosRequestConfig, AxiosResponse} from 'axios'
 import {Relation} from './Relation'
+import axios from 'axios'
 
 class Model implements IModel {
   public _fillable: string[] = []
@@ -12,11 +12,11 @@ class Model implements IModel {
   public _convert: boolean = true
   public _relations: Map<string, new (data?: any) => any> = new Map()
   public _initializeRelations?: () => void
+  public _errors: {[key: string]: string[]} = {}
 
   public converter: any
   public originalData: object = {}
   public arrayMapTarget: Array<any> = []
-  public form = new Form()
 
   constructor() {
     this.converter = {
@@ -74,10 +74,6 @@ class Model implements IModel {
     if (val) {
       this.create()
     }
-  }
-
-  fill() {
-    this.form = new Form(this.getPostable())
   }
 
   update(data: IIndexable): Model {
@@ -248,7 +244,7 @@ class Model implements IModel {
   mapToObject(map: Array<any>): IIndexable {
     const res: IIndexable = {}
     map.forEach(x => {
-      res[Object.keys(x)[0]] = Object.values(x)[0]
+      Object.assign(res, x)
     })
     return res
   }
@@ -257,28 +253,31 @@ class Model implements IModel {
     url: string,
     config: AxiosRequestConfig = {}
   ): Promise<AxiosResponse<T>> {
-    this.fill()
-    return await this.form.post(url, config)
+    const data = this.getPostable()
+    return await axios.post(url, data, config)
   }
 
   async patch<T = any>(
     url: string,
     config: AxiosRequestConfig = {}
   ): Promise<AxiosResponse<T>> {
-    this.fill()
-    return await this.form.patch(url, config)
+    const data = this.getPostable()
+    return await axios.patch(url, data, config)
   }
 
   async delete<T = any>(
     url: string,
     config: AxiosRequestConfig = {}
   ): Promise<AxiosResponse<T>> {
-    this.fill()
-    return await this.form.delete(url, config)
+    return await axios.delete(url, config)
   }
 
   get errors() {
-    return this.form.errors
+    return this._errors
+  }
+
+  set errors(val: {[key: string]: string[]}) {
+    this._errors = val
   }
 }
 
