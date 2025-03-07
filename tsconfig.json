@@ -15,34 +15,14 @@
     "declaration": true,
     "outDir": "dist",
     "allowJs": true,
-    "types": [
-      "webpack-env",
-      "jest"
-    ],
+    "types": ["jest"],
     "paths": {
-      "@/*": [
-        "src/*"
-      ],
+      "@/*": ["src/*"],
       "*": ["./src/@types/*"]
     },
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable",
-      "scripthost"
-    ],
-    "typeRoots":[
-      "src/types", "node_modules/@types"
-    ]
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
+    "typeRoots": ["src/types", "node_modules/@types"]
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "tests/**/*.ts",
-    "tests/**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "tests/**/*.ts", "tests/**/*.tsx"],
+  "exclude": ["node_modules"]
 }

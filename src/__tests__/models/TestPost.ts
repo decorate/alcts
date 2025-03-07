@@ -4,6 +4,8 @@
 import Model from '../../Model'
 import {Relation} from '../../Relation'
 import {TestUser} from './TestUser'
+import {TestComment} from './TestComment'
+import {ArrayMappable} from '../../entities/ArrayMappable'
 
 export class TestPost extends Model {
   /**
@@ -12,19 +14,34 @@ export class TestPost extends Model {
   id: number = 0
 
   /**
-   * 投稿のテキスト
+   * 投稿のタイトル
    */
-  text: string = ''
+  title: string = ''
+
+  /**
+   * 投稿の内容
+   */
+  content: string = ''
 
   /**
    * 投稿の作成者
    */
   user: Relation<TestUser> = new Relation(TestUser)
 
+  /**
+   * 投稿のコメント
+   */
+  comments: TestComment[] = []
+
   constructor(data: object = {}) {
     super()
-    this.fillable = ['id', 'text', 'user']
-    this.data = data
+    this.fillable = ['id', 'title', 'content', 'user', 'comments']
+
+    this.arrayMap(new ArrayMappable(TestComment).bind('comments'))
+
+    if (Object.keys(data).length > 0) {
+      this.data = data
+    }
   }
 
   /**

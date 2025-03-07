@@ -3,8 +3,8 @@
  * @class TestParentGroup
  * @extends {Model}
  */
-import Model from '@/Model'
-import {Relation} from '@/Relation'
+import Model from '../../Model'
+import {Relation} from '../../Relation'
 import {TestUser} from './TestUser'
 
 export class TestParentGroup extends Model {
@@ -26,7 +26,10 @@ export class TestParentGroup extends Model {
   constructor(data: object = {}) {
     super()
     this.fillable = ['id', 'name', 'user']
-    this.data = data
+
+    if (Object.keys(data).length > 0) {
+      this.data = data
+    }
   }
 
   /**
