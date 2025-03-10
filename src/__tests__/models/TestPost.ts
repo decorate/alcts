@@ -33,9 +33,18 @@ export class TestPost extends Model {
    */
   comments: TestComment[] = []
 
+  camelCaseProperty: string = ''
+
   constructor(data: object = {}) {
     super()
-    this.fillable = ['id', 'title', 'content', 'user', 'comments']
+    this.fillable = [
+      'id',
+      'title',
+      'content',
+      'user',
+      'comments',
+      'camelCaseProperty',
+    ]
 
     this.arrayMap(new ArrayMappable(TestComment).bind('comments'))
 

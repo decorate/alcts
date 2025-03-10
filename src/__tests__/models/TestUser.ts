@@ -9,6 +9,7 @@ import {TestParentGroup} from './TestParentGroup'
 import {TestPost} from './TestPost'
 import {ArrayMappable} from '../../entities/ArrayMappable'
 import {TestComment} from './TestComment'
+import {TestChild} from './TestChild'
 
 export class TestUser extends Model {
   id: number = 0
@@ -18,6 +19,7 @@ export class TestUser extends Model {
   parentGroup: Relation<TestParentGroup> = new Relation(TestParentGroup)
   posts: TestPost[] = []
   userComments: TestComment[] = []
+  testChild: Relation<TestChild> = new Relation(TestChild)
 
   constructor(data: object = {}) {
     super()
@@ -29,6 +31,7 @@ export class TestUser extends Model {
       'posts',
       'userComments',
       'parentGroup',
+      'testChild',
     ]
 
     this.arrayMap(

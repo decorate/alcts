@@ -81,49 +81,18 @@ class Model implements IModel {
 
   create() {
     Object.entries(this.data)
-      .map(x => {
+      .map((x) => {
         if (this.convert) {
           x[0] = this.converter.snakeToCamel(x[0])
         }
         return x
       })
-      .filter(x => {
+      .filter((x) => {
         return this.hasOwnProperty(x[0])
       })
-      .map(x => {
+      .map((x) => {
         const key = x[0] as string
         const data = this as IIndexable
-
-        const arrayMap = this.arrayMapTarget.find(m => {
-          if (!this.convert) {
-            const snakeBindKey = this.converter.camelToSnake(m.bindKey)
-            return snakeBindKey === key
-          }
-          return m.bindKey === key
-        })
-        if (arrayMap) {
-          if (!this.convert) {
-            const snakeKey = this.converter.camelToSnake(key)
-            if (this.data[snakeKey] && Array.isArray(this.data[snakeKey])) {
-              data[key] = this.data[snakeKey].map((item: IIndexable) => {
-                if (item instanceof arrayMap.model) {
-                  return item
-                }
-                return new arrayMap.model(item)
-              })
-              return
-            }
-          }
-          if (Array.isArray(x[1])) {
-            data[key] = x[1].map(item => {
-              if (item instanceof arrayMap.model) {
-                return item
-              }
-              return new arrayMap.model(item)
-            })
-            return
-          }
-        }
 
         if (typeof data[key] == 'number') {
           data[key] = Number(x[1])
@@ -173,11 +142,11 @@ class Model implements IModel {
   public afterPostable(res: IIndexable) {}
 
   public joinWhere(x: IIndexable) {
-    return this.presents.some(v => x[0] == v)
+    return this.presents.some((v) => x[0] == v)
   }
 
   public ignoreWhere(x: IIndexable) {
-    return this.ignore.every(v => x[0] != v)
+    return this.ignore.every((v) => x[0] != v)
   }
 
   public arrayMap(...mappable: Array<any>) {
@@ -188,15 +157,15 @@ class Model implements IModel {
     this.beforePostable()
 
     const res = Object.entries(this)
-      .filter(x => this.fillable.some(v => v == x[0]))
-      .filter(x => this.ignoreWhere(x))
-      .filter(x => {
+      .filter((x) => this.fillable.some((v) => v == x[0]))
+      .filter((x) => this.ignoreWhere(x))
+      .filter((x) => {
         if (this.ignoreWhere.length) {
           return true
         }
         return x[1] || this.joinWhere(x)
       })
-      .map(x => {
+      .map((x) => {
         const v = {key: x[0], value: x[1]}
         const key = this.converter.camelToSnake(v.key)
 
@@ -206,7 +175,26 @@ class Model implements IModel {
 
         if (v.value instanceof Array && v.value[0]) {
           if (v.value[0].getPostable instanceof Function) {
-            v.value = v.value.map(y => y.getPostable())
+            v.value = v.value.map((y) => y.getPostable())
+          }
+          if (v.value[0] instanceof Relation) {
+            if (v.value[0].get() === undefined) {
+              return
+            } else {
+              if (v.value[0].get()?.getPostable instanceof Function) {
+                v.value = v.value.map((y: any) => y.get()?.getPostable())
+              }
+            }
+          }
+        }
+
+        if (v.value instanceof Relation) {
+          if (v.value.get() === undefined) {
+            return
+          } else {
+            if (v.value.get()?.getPostable instanceof Function) {
+              v.value = v.value.get()?.getPostable()
+            }
           }
         }
 
@@ -221,19 +209,19 @@ class Model implements IModel {
 
   setRelations() {
     this.arrayMapTarget
-      .filter(x => this.hasOwnProperty(x.bindKey))
-      .map(x => {
+      .filter((x) => this.hasOwnProperty(x.bindKey))
+      .map((x) => {
         return {
           originalKey: x.bindKey,
           key: this.converter.camelToSnake(x.bindKey),
           value: x.model,
         }
       })
-      .filter(x => this.data[x.key])
-      .map(x => {
+      .filter((x) => this.data[x.key])
+      .map((x) => {
         return ((this as IIndexable)[x.originalKey] = Object.entries(
           this.data[x.key]
-        ).map(xs => {
+        ).map((xs) => {
           return new x.value(xs[1] as IIndexable)
         }))
       })
@@ -241,7 +229,7 @@ class Model implements IModel {
 
   mapToObject(map: Array<any>): IIndexable {
     const res: IIndexable = {}
-    map.forEach(x => {
+    map.forEach((x) => {
       Object.assign(res, x)
     })
     return res
