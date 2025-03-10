@@ -71,8 +71,8 @@ describe('TestUser', () => {
     expect(user.userComments[1].content).toBe('test comment 2')
   })
 
-  it('should handle posts and comments with new TestUser', () => {
-    const data = {
+  it('should have testChild relation with camelCase not converted', () => {
+    const mockData = {
       id: 1,
       name: 'test user',
       email: 'test@example.com',
@@ -99,13 +99,14 @@ describe('TestUser', () => {
           content: 'test comment 2',
         },
       ],
+      testChild: {
+        id: 1,
+        test_property_one: 'test',
+      },
     }
 
-    const user = new TestUser(data)
+    const user = new TestUser(mockData)
 
-    expect(user.posts[0].title).toBe('test post 1')
-    expect(user.posts[1].title).toBe('test post 2')
-    expect(user.userComments[0].content).toBe('test comment 1')
-    expect(user.userComments[1].content).toBe('test comment 2')
+    expect(user.testChild.get()?.test_property_one).toBe('test')
   })
 })
