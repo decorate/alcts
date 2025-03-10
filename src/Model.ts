@@ -177,6 +177,25 @@ class Model implements IModel {
           if (v.value[0].getPostable instanceof Function) {
             v.value = v.value.map((y) => y.getPostable())
           }
+          if (v.value[0] instanceof Relation) {
+            if (v.value[0].get() === undefined) {
+              return
+            } else {
+              if (v.value[0].get()?.getPostable instanceof Function) {
+                v.value = v.value.map((y: any) => y.get()?.getPostable())
+              }
+            }
+          }
+        }
+
+        if (v.value instanceof Relation) {
+          if (v.value.get() === undefined) {
+            return
+          } else {
+            if (v.value.get()?.getPostable instanceof Function) {
+              v.value = v.value.get()?.getPostable()
+            }
+          }
         }
 
         return {[key]: v.value}

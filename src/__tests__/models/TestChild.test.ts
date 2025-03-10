@@ -36,4 +36,42 @@ describe('TestChild', () => {
     expect(testChild.array_mappable_property[0].title).toBe('test')
     expect(testChild.array_mappable_property[0] instanceof TestPost).toBe(true)
   })
+
+  it('should get postable data', () => {
+    const mockData = {
+      id: 1,
+      test_property_one: 'test',
+      test_property_two: 1,
+      test_property_three: true,
+      relation_property: {id: 1, title: 'test', camel_case_property: 'test'},
+      array_mappable_property: [
+        {id: 1, title: 'test', camel_case_property: 'test'},
+      ],
+    }
+    const testChild = new TestChild(mockData)
+    const postable = testChild.getPostable()
+
+    expect(postable).toEqual({
+      id: 1,
+      test_property_one: 'test',
+      test_property_two: 1,
+      test_property_three: true,
+      relation_property: {
+        id: 1,
+        title: 'test',
+        camel_case_property: 'test',
+        comments: [],
+        content: '',
+      },
+      array_mappable_property: [
+        {
+          id: 1,
+          title: 'test',
+          camel_case_property: 'test',
+          comments: [],
+          content: '',
+        },
+      ],
+    })
+  })
 })

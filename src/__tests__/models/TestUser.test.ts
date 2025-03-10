@@ -109,4 +109,83 @@ describe('TestUser', () => {
 
     expect(user.testChild.get()?.test_property_one).toBe('test')
   })
+
+  it('should get postable data', () => {
+    const data = {
+      id: 1,
+      name: 'test user',
+      email: 'test@example.com',
+      type: 1,
+      posts: [
+        {
+          id: 1,
+          title: 'test post 1',
+          content: 'test post 1 content',
+        },
+        {
+          id: 2,
+          title: 'test post 2',
+          content: 'test post 2 content',
+        },
+      ],
+      user_comments: [
+        {
+          id: 1,
+          content: 'test comment 1',
+        },
+        {
+          id: 2,
+          content: 'test comment 2',
+        },
+      ],
+      testChild: {
+        id: 1,
+        test_property_one: 'test',
+      },
+    }
+
+    user.update(data)
+
+    const postable = user.getPostable()
+
+    expect(postable).toEqual({
+      id: 1,
+      name: 'test user',
+      email: 'test@example.com',
+      type: 1,
+      posts: [
+        {
+          id: 1,
+          title: 'test post 1',
+          content: 'test post 1 content',
+          comments: [],
+          camel_case_property: '',
+        },
+        {
+          id: 2,
+          title: 'test post 2',
+          content: 'test post 2 content',
+          comments: [],
+          camel_case_property: '',
+        },
+      ],
+      user_comments: [
+        {
+          id: 1,
+          content: 'test comment 1',
+        },
+        {
+          id: 2,
+          content: 'test comment 2',
+        },
+      ],
+      test_child: {
+        id: 1,
+        test_property_one: 'test',
+        test_property_two: 0,
+        test_property_three: false,
+        array_mappable_property: [],
+      },
+    })
+  })
 })
