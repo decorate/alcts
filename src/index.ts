@@ -1,27 +1,6 @@
 import Model from './Model'
-import {
-  IIndexable,
-  IRoute,
-  IRouteWrapper,
-  IModel,
-  Dictionary,
-} from './interfaces'
+import {IIndexable, IModel} from './interfaces'
 import {ArrayMappable} from './entities/ArrayMappable'
-import {Paginate} from './entities/Paginate'
-import {RouteWrapper} from './entities/RouteWrapper'
-import {PaginateConfig} from './interfaces/PaginateConfig'
 import {Relation} from './Relation'
 
-export {
-  Model,
-  ArrayMappable,
-  Paginate,
-  PaginateConfig,
-  IIndexable,
-  IRouteWrapper,
-  IRoute,
-  IModel,
-  Dictionary,
-  RouteWrapper,
-  Relation,
-}
+export {Model, ArrayMappable, IIndexable, IModel, Relation}

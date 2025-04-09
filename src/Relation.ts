@@ -40,3 +40,5 @@ export class Relation<T> {
     }
   }
 }
+
+export default Relation
