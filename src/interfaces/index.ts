@@ -1,4 +1,2 @@
-import {IIndexable} from '../interfaces/IIndexxable'
-import {IModel} from '../interfaces/IModel'
-
-export {IIndexable, IModel}
+export type {IIndexable} from './IIndexxable'
+export type {IModel} from './IModel'

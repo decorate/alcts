@@ -1,7 +1,5 @@
-import {IIndexable} from '../interfaces/IIndexxable'
+import type {IIndexable} from './IIndexxable'
 
 export interface IModel {
   getPostable(): IIndexable
 }
-
-export default IModel
