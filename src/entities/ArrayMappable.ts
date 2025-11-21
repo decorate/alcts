@@ -1,4 +1,4 @@
-import {plural} from 'pluralize'
+import pluralize from 'pluralize'
 import {camelCase} from '../utility/stringUtility'
 import Model from '../Model'
 
@@ -7,7 +7,7 @@ export class ArrayMappable<T extends Model> {
   model: any
 
   constructor(model: {new (data: {}): T}) {
-    this.bindKey = plural(camelCase(model.name))
+    this.bindKey = pluralize.plural(camelCase(model.name))
     this.model = model
   }
 
