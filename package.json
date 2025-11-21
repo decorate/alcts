@@ -1,13 +1,25 @@
 {
   "name": "@team-decorate/alcts",
-  "version": "2.0.2",
-  "main": "dist/index.d.ts",
-  "types": "dist/index.d.ts",
+  "version": "2.1.9",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "./node_modules/.bin/tsc",
+    "build:esm": "tsc -p tsconfig.esm.json && node scripts/fix-esm-imports.cjs",
+    "build:cjs": "tsc -p tsconfig.cjs.json && node scripts/fix-cjs-imports.cjs && find dist-cjs -name '*.js' -exec sh -c 'mv \"$1\" \"${1%.js}.cjs\"' _ {} \\; && cp -r dist-cjs/* dist/ && rm -rf dist-cjs",
+    "build": "rm -rf dist dist-cjs && npm run build:esm && npm run build:cjs",
     "test": "jest --forceExit -i",
     "type-check": "tsc --noEmit"
   },

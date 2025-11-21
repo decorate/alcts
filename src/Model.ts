@@ -1,7 +1,6 @@
 import {snakeToCamel, camelToSnake, camelCase} from './utility/stringUtility'
-import {IIndexable} from '@/interfaces'
-import {IModel} from '@/interfaces/IModel'
-import {Relation} from './Relation'
+import type {IIndexable, IModel} from '@/interfaces'
+import Relation from './Relation'
 
 class Model implements IModel {
   public _fillable: string[] = []
@@ -217,13 +216,21 @@ class Model implements IModel {
           value: x.model,
         }
       })
-      .filter((x) => this.data[x.key])
+      .filter((x) => this.data[x.key] || this.data[x.originalKey])
       .map((x) => {
-        return ((this as IIndexable)[x.originalKey] = Object.entries(
-          this.data[x.key]
-        ).map((xs) => {
-          return new x.value(xs[1] as IIndexable)
-        }))
+        if (this.data[x.key]) {
+          return ((this as IIndexable)[x.originalKey] = Object.entries(
+            this.data[x.key]
+          ).map((xs) => {
+            return new x.value(xs[1] as IIndexable)
+          }))
+        } else {
+          return ((this as IIndexable)[x.originalKey] = Object.entries(
+            this.data[x.originalKey]
+          ).map((xs) => {
+            return new x.value(xs[1] as IIndexable)
+          }))
+        }
       })
   }
 
